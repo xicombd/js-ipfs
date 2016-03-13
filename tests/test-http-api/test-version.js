@@ -36,8 +36,9 @@ describe('version', () => {
     })
 
     // TODO fix: only fails on travis
-    it.skip('get the version', (done) => {
+    it('get the version', (done) => {
       ctl.version((err, result) => {
+        console.log(err, result)
         expect(err).to.not.exist
         expect(result).to.have.a.property('Version')
         expect(result).to.have.a.property('Commit')
