@@ -28,10 +28,15 @@ module.exports = Command.extend({
   run: (name) => {
     var ipfs = utils.getIPFS()
     ipfs.version((err, version) => {
-      if (err) { return log.error(err) }
+      if (err) {
+        log.error(err)
+        console.log(err)
+        throw err
+      }
 
       if (typeof version === 'object') { // js-ipfs-api output
         console.log('ipfs version', version.Version)
+        console.log(version)
         return
       }
 
