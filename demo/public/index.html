@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>demo</title>
+    <script type="text/javascript" src="ipfs.js"></script>
+  </head>
+  <body>
+    <img data-ipfs-src="Qmc2ckY3eGJTt8xjMHtKn2rhjPj94BUdusMNWm3e8ggcyj">
+
+    <script type="text/javascript">
+      'use strict'
+
+      const ipfs = new Ipfs()
+
+      ipfs.init({ bits: 64, emptyRepo: true }, (err) => {
+        if (err && err.message !== 'repo already exists') {
+          console.error(err)
+          return
+        }
+
+        ipfs.load((err) => {
+          if (err) {
+            console.error(err)
+            return
+          }
+
+          const image = document.querySelector('img')
+          const ipfsHash = image.dataset.ipfsSrc
+
+          ipfs.files.get(ipfsHash, (err, res) => {
+            if (err) {
+              console.error(err)
+              return
+            }
+
+            console.log('files.get callback')
+
+            res.on('file', (data) => {
+              console.log('data', data)
+            })
+          })
+        })
+      })
+    </script>
+  </body>
+</html>
